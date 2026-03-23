@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiseMarket — Превратите Ozon в ваш главный источник дохода</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0f;
+      color: #e8e8ef;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font-family: inherit; border: none; outline: none; }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, .35);
+      --green: #00cec9;
+      --green-glow: rgba(0, 206, 201, .3);
+      --orange: #fdcb6e;
+      --pink: #fd79a8;
+      --bg-card: rgba(255,255,255,.04);
+      --bg-card-hover: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.08);
+      --border-hover: rgba(255,255,255,.15);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max-w: 1240px;
+    }
+
+    /* ===== UTILITY ===== */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; position: relative; }
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: rgba(108,92,231,.12);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.55);
+      max-width: 620px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid var(--border-hover);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-light);
+      background: rgba(108,92,231,.08);
+    }
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), #00b894);
+      color: #0a0a0f;
+      font-weight: 700;
+      box-shadow: 0 4px 24px var(--green-glow);
+    }
+    .btn-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--green-glow);
+    }
+
+    /* ===== NOISE OVERLAY ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ===== GLOW BLOBS ===== */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-purple { background: var(--accent); width: 500px; height: 500px; opacity: .15; }
+    .glow-green { background: var(--green); width: 400px; height: 400px; opacity: .1; }
+    .glow-pink { background: var(--pink); width: 350px; height: 350px; opacity: .08; }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: all .4s ease;
+    }
+    .header.scrolled {
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .logo span { color: var(--accent-light); }
+    .nav { display: flex; gap: 32px; align-items: center; }
+    .nav a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.6);
+      transition: color .3s;
+    }
+    .nav a:hover { color: #fff; }
+    .header-cta { display: flex; gap: 12px; align-items: center; }
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+    .burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+    .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,15,.97);
+      backdrop-filter: blur(24px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.7);
+      transition: color .3s;
+    }
+    .mobile-nav a:hover { color: #fff; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      position: relative;
+    }
+    .hero .glow-purple { top: -200px; right: -150px; }
+    .hero .glow-green { bottom: 0; left: -100px; }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-title {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--accent-light), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      backdrop-filter: blur(20px);
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(108,92,231,.3), transparent, rgba(0,206,201,.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .hero-card-label {
+      font-size: .75rem;
+      color: var(--accent-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+    .hero-card-stat {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .hero-card-stat .green { color: var(--green); }
+    .hero-card-desc {
+      color: rgba(255,255,255,.45);
+      font-size: .9rem;
+      margin-bottom: 24px;
+    }
+    .hero-card-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 100px;
+      margin-top: 16px;
+    }
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(to top, var(--accent), var(--green));
+      border-radius: 6px 6px 0 0;
+      transition: height .6s cubic-bezier(.34,1.56,.64,1);
+      opacity: .7;
+    }
+    .chart-bar:hover { opacity: 1; }
+
+    /* ===== STATS ===== */
+    .stats {
+      padding: 40px 0 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 32px 20px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all .3s ease;
+    }
+    .stat-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+    .stat-number {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #fff, var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-text {
+      font-size: .85rem;
+      color: rgba(255,255,255,.45);
+      font-weight: 500;
+    }
+
+    /* ===== WHY TRUST ===== */
+    .trust .glow-purple { top: 100px; left: -200px; }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .trust-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all .4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .trust-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-6px);
+    }
+    .trust-card:hover::after { opacity: 1; }
+    .trust-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .trust-icon.purple { background: rgba(108,92,231,.15); color: var(--accent-light); }
+    .trust-icon.green { background: rgba(0,206,201,.15); color: var(--green); }
+    .trust-icon.orange { background: rgba(253,203,110,.15); color: var(--orange); }
+    .trust-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .trust-card p {
+      font-size: .92rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.6;
+    }
+
+    /* ===== UNIQUE ===== */
+    .unique .glow-pink { bottom: -100px; right: -150px; }
+    .unique-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .unique-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all .4s ease;
+      text-align: center;
+    }
+    .unique-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+    }
+    .unique-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-light), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .unique-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .unique-card p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ===== SERVICES/STEPS ===== */
+    .services { position: relative; overflow: hidden; }
+    .services .glow-green { top: 200px; right: -200px; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all .4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+    }
+    .service-step {
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+    }
+    .service-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      font-size: .88rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.6;
+    }
+    .service-card .service-tag {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .tag-blue { background: rgba(108,92,231,.15); color: var(--accent-light); }
+    .tag-green { background: rgba(0,206,201,.15); color: var(--green); }
+    .tag-orange { background: rgba(253,203,110,.15); color: var(--orange); }
+    .tag-pink { background: rgba(253,121,168,.15); color: var(--pink); }
+
+    /* ===== PRICING ===== */
+    .pricing { position: relative; }
+    .pricing .glow-purple { bottom: -100px; right: -200px; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+    }
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      transition: all .4s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .price-card.popular {
+      border-color: var(--accent);
+      background: rgba(108,92,231,.06);
+    }
+    .price-card.popular::before {
+      content: 'Популярный';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .price-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+    }
+    .price-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .price-desc {
+      font-size: .82rem;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 20px;
+      line-height: 1.5;
+      flex-grow: 0;
+    }
+    .price-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .price-period {
+      font-size: .8rem;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 24px;
+    }
+    .price-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-grow: 1;
+    }
+    .price-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+    }
+    .price-feature .check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(0,206,201,.15);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      flex-shrink: 0;
+    }
+    .price-card .btn { width: 100%; justify-content: center; }
+
+    /* ===== EDUCATION TARIFFS ===== */
+    .education { position: relative; }
+    .education-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all .4s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .edu-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+    .edu-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .edu-card p {
+      font-size: .88rem;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .edu-price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    /* ===== RESULTS ===== */
+    .results { position: relative; }
+    .results .glow-green { top: 0; left: -200px; }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .result-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all .4s ease;
+    }
+    .result-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+    }
+    .result-number {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--green), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .result-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .result-card p {
+      font-size: .85rem;
+      color: rgba(255,255,255,.45);
+    }
+
+    /* ===== CASES ===== */
+    .cases { position: relative; overflow: hidden; }
+    .cases .glow-pink { top: 50%; right: -200px; }
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all .4s ease;
+    }
+    .case-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+    .case-category {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .case-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .case-results {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .case-result {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .88rem;
+      color: rgba(255,255,255,.6);
+    }
+    .case-result span { color: var(--green); flex-shrink: 0; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials { position: relative; overflow: hidden; }
+    .testimonials .glow-purple { bottom: -200px; left: 30%; }
+    .testimonials-slider {
+      margin-top: 50px;
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      padding-bottom: 20px;
+    }
+    .testimonials-slider::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      min-width: 380px;
+      max-width: 420px;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      flex-shrink: 0;
+      transition: all .4s ease;
+    }
+    .testimonial-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+    .testimonial-stars {
+      color: var(--orange);
+      font-size: .9rem;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .testimonial-text {
+      font-size: .9rem;
+      color: rgba(255,255,255,.6);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+    .testimonial-name {
+      font-weight: 600;
+      font-size: .92rem;
+    }
+    .testimonial-role {
+      font-size: .8rem;
+      color: rgba(255,255,255,.4);
+    }
+
+    /* ===== FAQ ===== */
+    .faq { position: relative; }
+    .faq-list {
+      max-width: 800px;
+      margin: 50px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+    .faq-item:hover { border-color: var(--border-hover); }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .95rem;
+      gap: 16px;
+      transition: color .3s;
+    }
+    .faq-question:hover { color: var(--accent-light); }
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(108,92,231,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      color: var(--accent-light);
+      flex-shrink: 0;
+      transition: transform .3s ease;
+    }
+    .faq-item.active .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: .9rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.7;
+    }
+
+    /* ===== CTA / CONTACT ===== */
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card {
+      background: linear-gradient(135deg, rgba(108,92,231,.12), rgba(0,206,201,.08));
+      border: 1px solid rgba(108,92,231,.2);
+      border-radius: 28px;
+      padding: 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(108,92,231,.08) 0%, transparent 50%);
+      animation: cta-glow 8s ease-in-out infinite;
+    }
+    @keyframes cta-glow {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -20px); }
+    }
+    .cta-card > * { position: relative; z-index: 1; }
+    .cta-card h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .cta-card p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-form {
+      display: flex;
+      gap: 12px;
+      max-width: 520px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cta-form input {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 20px;
+      border-radius: 100px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: .95rem;
+      transition: border-color .3s;
+    }
+    .cta-form input::placeholder { color: rgba(255,255,255,.3); }
+    .cta-form input:focus {
+      border-color: var(--accent-light);
+      background: rgba(255,255,255,.08);
+    }
+
+    /* ===== AUDIT ===== */
+    .audit { position: relative; }
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .audit-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all .3s ease;
+    }
+    .audit-item:hover {
+      background: var(--bg-card-hover);
+      transform: translateX(4px);
+    }
+    .audit-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0,206,201,.15);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      flex-shrink: 0;
+    }
+    .audit-item span {
+      font-size: .9rem;
+      color: rgba(255,255,255,.65);
+    }
+
+    /* ===== PARTNERS ===== */
+    .partners {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .partners p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 28px;
+    }
+    .partners-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      opacity: .4;
+    }
+    .partner-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo { margin-bottom: 16px; }
+    .footer-brand p {
+      font-size: .88rem;
+      color: rgba(255,255,255,.4);
+      max-width: 280px;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 20px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: .88rem;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 12px;
+      transition: color .3s;
+    }
+    .footer-col a:hover { color: var(--accent-light); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: .8rem;
+      color: rgba(255,255,255,.3);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-social {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      transition: all .3s ease;
+    }
+    .footer-social:hover {
+      background: rgba(108,92,231,.15);
+      border-color: var(--accent);
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid, .unique-grid, .education-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 70px 0; }
+      .nav { display: none; }
+      .header-cta .btn { display: none; }
+      .burger { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .trust-grid, .unique-grid, .education-grid,
+      .results-grid, .cases-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .audit-grid { grid-template-columns: 1fr; }
+      .cta-card { padding: 40px 24px; }
+      .cta-form { flex-direction: column; }
+      .cta-form input { min-width: 100%; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .testimonial-card { min-width: 300px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== FLOATING CTA ===== */
+    .floating-cta {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 900;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all .4s ease;
+      pointer-events: none;
+    }
+    .floating-cta.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .floating-cta .btn {
+      box-shadow: 0 8px 32px rgba(0,0,0,.4), 0 4px 16px var(--accent-glow);
+    }
+
+    /* ===== CHECKLIST TILE ===== */
+    .checklist-banner {
+      background: linear-gradient(135deg, rgba(253,203,110,.08), rgba(108,92,231,.08));
+      border: 1px solid rgba(253,203,110,.15);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+    .checklist-banner h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .checklist-banner p {
+      font-size: .88rem;
+      color: rgba(255,255,255,.5);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="#" class="logo">Wise<span>Market</span></a>
+    <nav class="nav">
+      <a href="#services">Услуги</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#testimonials">Отзывы</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="header-cta">
+      <a href="#contact" class="btn btn-primary">Оставить заявку</a>
+    </div>
+    <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services" onclick="closeMobile()">Услуги</a>
+  <a href="#pricing" onclick="closeMobile()">Тарифы</a>
+  <a href="#cases" onclick="closeMobile()">Кейсы</a>
+  <a href="#testimonials" onclick="closeMobile()">Отзывы</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#contact" onclick="closeMobile()">Контакты</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMobile()">Оставить заявку</a>
+</div>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="glow glow-purple"></div>
+  <div class="glow glow-green"></div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="section-label">Маркетплейс-агентство #1</div>
+      <h1 class="hero-title">
+        Превратите Ozon<br>в ваш <span class="gradient-text">главный источник дохода</span>
+      </h1>
+      <p class="hero-desc">
+        Мы поможем вам начать зарабатывать с нуля или вывести текущие продажи на новый уровень — на основе аналитики и выработанной стратегии
+      </p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">Начать сейчас &#10132;</a>
+        <a href="#pricing" class="btn btn-outline">Смотреть тарифы</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-label">Рост выручки по месяцам</div>
+        <div class="hero-card-stat">+<span class="green" id="heroStat">98</span>%</div>
+        <div class="hero-card-desc">рост продаж у клиентов в первую неделю</div>
+        <div class="hero-card-chart" id="heroChart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="1000">0</div>
+        <div class="stat-text">Пользователей доверяют нам</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="5">0</div>
+        <div class="stat-text">Лет опыта в маркетплейсах</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="98">0</div>
+        <div class="stat-text">% рост продаж за первую неделю</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-count="100">0</div>
+        <div class="stat-text">% клиентов экономят до 100 000 ₽</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHY TRUST ========== -->
+<section class="section trust" id="trust">
+  <div class="glow glow-purple"></div>
+  <div class="container">
+    <div class="section-label reveal">Почему мы?</div>
+    <h2 class="section-title reveal">Почему нам доверяют?</h2>
+    <p class="section-subtitle reveal">
+      Мы знаем, как превратить магазин на Ozon в стабильный источник дохода — с нуля или с масштабированием действующего бизнеса.
+    </p>
+    <div class="trust-grid">
+      <div class="trust-card reveal">
+        <div class="trust-icon purple">&#9881;</div>
+        <h3>Избегаем ошибок</h3>
+        <p>Избегаем ошибок, которые мешают продажам. Наш опыт позволяет обходить типичные «грабли» и сразу двигаться к результату.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon green">&#9733;</div>
+        <h3>Настраиваем карточки</h3>
+        <p>Настраиваем карточки товаров так, чтобы они привлекали всех покупателей. Качественная оптимизация = рост конверсии.</p>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon orange">&#9889;</div>
+        <h3>Оптимизируем рекламу</h3>
+        <p>Оптимизируем рекламные кампании и применяем собственные стратегии для максимального возврата инвестиций.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== UNIQUE ========== -->
+<section class="section unique" id="unique">
+  <div class="glow glow-pink"></div>
+  <div class="container">
+    <div class="section-label reveal">Уникальность</div>
+    <h2 class="section-title reveal">В чём наша уникальность?</h2>
+    <p class="section-subtitle reveal">Берём на себя всю работу — вы не теряете время и деньги на эксперименты.</p>
+    <div class="unique-grid">
+      <div class="unique-card reveal">
+        <div class="unique-num">01</div>
+        <h3>Магазин «под ключ»</h3>
+        <p>Создаём магазин «под ключ» под ваши цели. От регистрации до первых продаж.</p>
+      </div>
+      <div class="unique-card reveal">
+        <div class="unique-num">02</div>
+        <h3>Продвижение бизнеса</h3>
+        <p>Продвигаем действующий бизнес на лидирующие позиции с проверенными стратегиями.</p>
+      </div>
+      <div class="unique-card reveal">
+        <div class="unique-num">03</div>
+        <h3>Готовые карточки</h3>
+        <p>Продаём готовые прибыльные карточки товаров, чтобы вы начали зарабатывать сразу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section class="section services" id="services">
+  <div class="glow glow-green"></div>
+  <div class="container">
+    <div class="section-label reveal">Что мы делаем</div>
+    <h2 class="section-title reveal">Мы создаём прибыльный бизнес на Ozon</h2>
+    <p class="section-subtitle reveal">Вы — в деле, мы — в деталях. Никаких рисков и лишних затрат. Работаем на результат.</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-step">Этап 1</div>
+        <h3>Рост</h3>
+        <p>Создаем магазин, настраиваем все и передаем вам. Обучаем и консультируем весь первый месяц — без ведения, но с полной готовностью к продажам.</p>
+        <span class="service-tag tag-blue">Запуск</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-step">Этап 2</div>
+        <h3>Масштаб</h3>
+        <p>Берем на себя полное управление бизнесом на Ozon — от самого старта до стабильного роста. Вам не потребуется погружаться в детали.</p>
+        <span class="service-tag tag-green">Управление</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-step">Этап 3</div>
+        <h3>Доминация</h3>
+        <p>От стратегии до доминации. Вы не просто продаете, вы лидируете: обходите конкурентов, масштабируетесь и закрепляете лидерство.</p>
+        <span class="service-tag tag-orange">Лидерство</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-step">Этап 4</div>
+        <h3>Продвижение</h3>
+        <p>Разрабатываем и внедряем персонализированные рекламные стратегии для привлечения новых клиентов и роста вашего дохода.</p>
+        <span class="service-tag tag-pink">Реклама</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="section pricing" id="pricing">
+  <div class="glow glow-purple"></div>
+  <div class="container">
+    <div class="section-label reveal">Тарифы</div>
+    <h2 class="section-title reveal">Тарифы для каждого бизнеса</h2>
+    <p class="section-subtitle reveal">Выберите подходящий формат работы — от старта до полного доминирования на маркетплейсе.</p>
+
+    <div class="pricing-grid">
+      <!-- Рост -->
+      <div class="price-card reveal">
+        <div class="price-name">Рост</div>
+        <div class="price-desc">Базовый старт: создание магазина, выбор ниши, карточки и первые шаги по рекламе. Идеален для уверенного запуска.</div>
+        <div class="price-amount">341 414 ₽</div>
+        <div class="price-period">/ мес</div>
+        <div class="price-features">
+          <div class="price-feature"><span class="check">&#10003;</span> Регистрация</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Аналитика</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Стратегия</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Карточки</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Контент</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Реклама</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Ведение</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Менеджер</div>
+        </div>
+        <a href="#contact" class="btn btn-outline">Купить</a>
+      </div>
+
+      <!-- Продвижение -->
+      <div class="price-card reveal">
+        <div class="price-name">Продвижение</div>
+        <div class="price-desc">Для действующих продавцов, которым нужно системно расти. Оптимизируем для уверенного масштабирования.</div>
+        <div class="price-amount">402 843 ₽</div>
+        <div class="price-period">/ мес</div>
+        <div class="price-features">
+          <div class="price-feature"><span class="check">&#10003;</span> Все из «Рост»</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Цены</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Автоответы</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Документы</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Прогноз</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Команда 2+ специалиста</div>
+        </div>
+        <a href="#contact" class="btn btn-outline">Купить</a>
+      </div>
+
+      <!-- Масштаб -->
+      <div class="price-card popular reveal">
+        <div class="price-name">Масштаб</div>
+        <div class="price-desc">Полное сопровождение: мы берем все на себя. От стратегии и рекламы до команды и конкурентов.</div>
+        <div class="price-amount">441 414 ₽</div>
+        <div class="price-period">/ мес</div>
+        <div class="price-features">
+          <div class="price-feature"><span class="check">&#10003;</span> Все из «Продвижение»</div>
+          <div class="price-feature"><span class="check">&#10003;</span> KPI</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Разведка</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Авто</div>
+          <div class="price-feature"><span class="check">&#10003;</span> VIP Клуб</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Обучение: очно и дистанционно</div>
+        </div>
+        <a href="#contact" class="btn btn-primary">Купить</a>
+      </div>
+
+      <!-- Доминация -->
+      <div class="price-card reveal">
+        <div class="price-name">Доминация</div>
+        <div class="price-desc">Максимум контроля и силы: вы доминируете в нише, опережаете конкурентов с профессиональной командой.</div>
+        <div class="price-amount">602 842 ₽</div>
+        <div class="price-period">/ мес</div>
+        <div class="price-features">
+          <div class="price-feature"><span class="check">&#10003;</span> Все из «Масштаб»</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Полная команда</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Персональная стратегия</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Приоритетная поддержка</div>
+          <div class="price-feature"><span class="check">&#10003;</span> Конкурентный анализ</div>
+        </div>
+        <a href="#contact" class="btn btn-outline">Купить</a>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <h3 class="section-title reveal" style="margin-top: 80px; font-size: 1.8rem;">Обучение</h3>
+    <div class="education-grid">
+      <div class="edu-card reveal">
+        <h3>Базовый курс</h3>
+        <p>Получаете обучающие материалы, 4 онлайн-сессии с менеджером и чат-поддержку. Всё в удобном темпе, без перегруза. Учитесь — и внедряете.</p>
+        <div class="edu-price">45 990 ₽</div>
+        <a href="#contact" class="btn btn-outline">Подробности</a>
+      </div>
+      <div class="edu-card reveal">
+        <h3>Полный курс</h3>
+        <p>Личный куратор, 8 онлайн-сессий, практические задания, закрытые материалы, личные встречи и постоянная поддержка. Фокус на результат.</p>
+        <div class="edu-price">53 990 ₽</div>
+        <a href="#contact" class="btn btn-outline">Подробности</a>
+      </div>
+      <div class="edu-card reveal">
+        <h3>Командное развитие</h3>
+        <p>Обучим вас и до 3 сотрудников: 6 командных сессий, контроль внедрения, чат с куратором, наставничество, бизнес-кейсы.</p>
+        <div class="edu-price">78 990 ₽</div>
+        <a href="#contact" class="btn btn-outline">Подробности</a>
+      </div>
+    </div>
+
+    <a href="https://wisemarket.ru/tariffs" target="_blank" class="btn btn-outline reveal" style="margin-top: 36px;">Полный список тарифов &#10132;</a>
+  </div>
+</section>
+
+<!-- ========== AUDIT ========== -->
+<section class="section audit" id="audit">
+  <div class="container">
+    <div class="section-label reveal">Аудит</div>
+    <h2 class="section-title reveal">По итогам аудита вы получите чёткий план роста продаж</h2>
+    <p class="section-subtitle reveal">От стратегии до конкретных действий — полный анализ вашего магазина.</p>
+    <div class="audit-grid">
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Сроки и детали отгрузки товара</span></div>
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Отзывы и рейтинг</span></div>
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Ключевые слова в названии</span></div>
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Ключевые слова в описании</span></div>
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Медиа-контент</span></div>
+      <div class="audit-item reveal"><div class="audit-check">&#10003;</div><span>Анализ конкурентов</span></div>
+    </div>
+    <div class="checklist-banner reveal">
+      <div>
+        <h3>&#128196; Скачайте чек-лист «10 шагов для постоянных продаж»</h3>
+        <p>Бесплатный гайд для старта и роста на Ozon</p>
+      </div>
+      <a href="https://drive.google.com/file/d/1k9lSs-Le6OiPNsP1mLKPsjmYKO2pm-f6/view?usp=sharing" target="_blank" class="btn btn-green">Скачать бесплатно</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RESULTS ========== -->
+<section class="section results" id="results">
+  <div class="glow glow-green"></div>
+  <div class="container">
+    <div class="section-label reveal">Результаты</div>
+    <h2 class="section-title reveal">Результаты наших клиентов на Ozon</h2>
+    <p class="section-subtitle reveal">Цифры, которые говорят сами за себя</p>
+    <div class="results-grid">
+      <div class="result-card reveal">
+        <div class="result-number">100%</div>
+        <h3>Экономят до 100 000 ₽</h3>
+        <p>Избегая ошибок новичков благодаря нашему опыту</p>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-number">70%</div>
+        <h3>Получают продажи с первого дня</h3>
+        <p>Без тестов и ожидания</p>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-number">86%</div>
+        <h3>Выходят на пассивный доход</h3>
+        <p>В первый месяц благодаря комплексному управлению</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CASES ========== -->
+<section class="section cases" id="cases">
+  <div class="glow glow-pink"></div>
+  <div class="container">
+    <div class="section-label reveal">Кейсы</div>
+    <h2 class="section-title reveal">От первых шагов до многомиллионных оборотов</h2>
+    <p class="section-subtitle reveal">Ознакомьтесь с реальными результатами наших клиентов</p>
+    <div class="cases-grid">
+      <div class="case-card reveal">
+        <div class="case-category">Одежда и аксессуары</div>
+        <h3>Термоноски мужские</h3>
+        <div class="case-results">
+          <div class="case-result"><span>&#8599;</span> Продажи выросли с 463 до 1 320 шт./мес. за 1,5 месяца</div>
+          <div class="case-result"><span>&#127942;</span> Закрепились в ТОП-3 термоносков</div>
+          <div class="case-result"><span>&#128200;</span> Конверсия из карточки — 32,8%</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-category">Техника и гаджеты</div>
+        <h3>Квадрокоптер DJI Mavic 3 Pro</h3>
+        <div class="case-results">
+          <div class="case-result"><span>&#8599;</span> Оборот 6 904 600 рублей за 2 месяца</div>
+          <div class="case-result"><span>&#128176;</span> ROI превысил 220%</div>
+          <div class="case-result"><span>&#128200;</span> Запуски новых партий проходят без задержек</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-category">Товары для дома</div>
+        <h3>Рум-спрей</h3>
+        <div class="case-results">
+          <div class="case-result"><span>&#8599;</span> Выручка 742 300 рублей за 2 месяца</div>
+          <div class="case-result"><span>&#128200;</span> Количество продаж выросло на 185%</div>
+          <div class="case-result"><span>&#128230;</span> Оптимизация логистики увеличила маржу</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-category">Электроника</div>
+        <h3>Зарядный комплект 20W</h3>
+        <div class="case-results">
+          <div class="case-result"><span>&#8599;</span> Продажи с 351 до 1 935 шт./мес. за 1,5 месяца</div>
+          <div class="case-result"><span>&#127942;</span> Закрепились в ТОП-1 аксессуаров для смартфонов</div>
+          <div class="case-result"><span>&#128200;</span> Высокая конверсия и стабильный рост</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="section testimonials" id="testimonials">
+  <div class="glow glow-purple"></div>
+  <div class="container">
+    <div class="section-label reveal">Отзывы</div>
+    <h2 class="section-title reveal">С нами работают — нас рекомендуют</h2>
+    <p class="section-subtitle reveal">Более 1000 брендов уже работают с нами</p>
+    <div class="testimonials-slider reveal">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">Сначала хотел просто проконсультироваться. Был скепсис — думал, как и везде: пообещают, пропадут. Но уже на первом этапе понял — здесь всё иначе. Не шаблонные фразы, а конкретные действия. Через полторы недели я увидел первые стабильные заказы.</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ВП</div>
+          <div>
+            <div class="testimonial-name">Вадим Полозов</div>
+            <div class="testimonial-role">Бренд товаров для питомцев</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">Что понравилось больше всего — это подход. Не «продали услугу и забыли», а реально включились в процесс, как будто запускали свой бизнес. Уровень и вовлечённость команды — на 10 из 10. Работаем уже 3 месяц!</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">АК</div>
+          <div>
+            <div class="testimonial-name">Алексей К.</div>
+            <div class="testimonial-role">Электроника на Ozon</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">Я не из тех, кто оставляет отзывы, но в данном случае — заслужили. Вместе разобрали мой товар, полностью переработали позиционирование. Результат превзошел все ожидания — продажи стабильно растут каждую неделю.</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">МД</div>
+          <div>
+            <div class="testimonial-name">Марина Д.</div>
+            <div class="testimonial-role">Товары для дома</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">С WiseMarket вышли на стабильный оборот за 2 месяца. Команда работает как единый механизм — каждый шаг продуман. Рекомендую всем, кто хочет не просто продавать, а доминировать на маркетплейсе.</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ИС</div>
+          <div>
+            <div class="testimonial-name">Игорь С.</div>
+            <div class="testimonial-role">Спортивные товары</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="section faq" id="faq">
+  <div class="container">
+    <div class="section-label reveal" style="text-align:center;display:block;">FAQ</div>
+    <h2 class="section-title reveal" style="text-align:center;">Часто задаваемые вопросы</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-question">
+          <span>Я новичок, не знаю с чего начать. Вы поможете?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Абсолютно! Мы сопровождаем как новичков, так и опытных продавцов. Ваш персональный менеджер поможет с выбором подходящего формата, подскажет, с чего начать, и составит для вас подробную дорожную карту: от подбора товара до запуска магазина и выхода на стабильные продажи. Вы не останетесь один — каждый шаг мы проходим вместе.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">
+          <span>Все ли официально? Есть ли гарантия и договор?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Да, мы работаем полностью официально. Заключаем договор, предоставляем все необходимые документы. Вы защищены юридически на каждом этапе сотрудничества.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">
+          <span>У вас можно купить «магазин под ключ»?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Да! Мы создаём магазин «под ключ» — от регистрации и выбора ниши до настройки карточек, рекламы и первых продаж. Вы получаете полностью готовый к работе бизнес на Ozon.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">
+          <span>У меня уже есть магазин. Что вы можете предложить?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Мы проведём аудит вашего магазина, выявим точки роста, оптимизируем карточки товаров, настроим рекламные кампании и поможем масштабировать продажи. Наша цель — вывести ваш бизнес на новый уровень дохода.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">
+          <span>Какие услуги дополнительно входят в тариф?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">В каждый тариф включены базовые услуги: аналитика, стратегия, контент и реклама. Расширенные тарифы включают автоответы, KPI-контроль, конкурентную разведку, VIP-клуб и индивидуальное обучение. Подробности — на странице тарифов.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA / CONTACT ========== -->
+<section class="section cta-section" id="contact">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="section-label">Начните сейчас</div>
+      <h2>Сомневаетесь, с чего начать?</h2>
+      <p>Оставьте заявку — наш специалист свяжется с вами и подберёт оптимальное решение</p>
+      <form class="cta-form" id="ctaForm" onsubmit="handleSubmit(event)">
+        <input type="text" placeholder="Ваше имя" required>
+        <input type="tel" placeholder="+7 (___) ___-__-__" required>
+        <button type="submit" class="btn btn-primary">Индивидуальные условия &#10132;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BANNER ========== -->
+<section class="section" style="padding: 60px 0;">
+  <div class="container">
+    <div class="checklist-banner reveal" style="background: linear-gradient(135deg, rgba(108,92,231,.1), rgba(253,121,168,.08)); border-color: rgba(108,92,231,.2);">
+      <div>
+        <h3>&#128640; Хотите, чтобы мы сделали ваш товар бестселлером?</h3>
+        <p>Наши эксперты знают, как вывести его в топ и обеспечить вам высокий доход.</p>
+      </div>
+      <a href="#contact" class="btn btn-primary">Хочу сейчас &#10132;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Wise<span>Market</span></div>
+        <p>Наша цель — запустить для вас продажи через новый или уже готовый магазин, без необходимости вникать в технические детали.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <a href="#pricing">Тарифы</a>
+        <a href="#testimonials">Отзывы</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Услуги</h4>
+        <a href="#services">Магазин под ключ</a>
+        <a href="#services">Продвижение</a>
+        <a href="#services">Обучение</a>
+        <a href="#pricing">Полный список тарифов</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <a href="mailto:support@wisemarket.ru">support@wisemarket.ru</a>
+        <a href="https://t.me/WiseMarketSupport_bot" target="_blank">Telegram</a>
+        <a href="https://wa.me/79996622298" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <span>ИП Васильев Глеб Андреевич &bull; ИНН: 772577851715 &bull; ОГРНИП: 323774600109361</span>
+      </div>
+      <div style="display:flex; gap: 16px; align-items:center;">
+        <a href="https://wisemarket.ru/policy" target="_blank">Политика конфиденциальности</a>
+        <a href="https://wisemarket.ru/offer" target="_blank">Публичная оферта</a>
+      </div>
+      <div class="footer-socials">
+        <a href="https://t.me/WiseMarketSupport_bot" target="_blank" class="footer-social" title="Telegram">&#9993;</a>
+        <a href="https://wa.me/79996622298" target="_blank" class="footer-social" title="WhatsApp">&#9742;</a>
+        <a href="mailto:support@wisemarket.ru" class="footer-social" title="Email">&#9993;</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<div class="floating-cta" id="floatingCta">
+  <a href="#contact" class="btn btn-primary">&#128172; Оставить заявку</a>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== HEADER SCROLL =====
+  const header = document.getElementById('header');
+  const floatingCta = document.getElementById('floatingCta');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', function() {
+    const y = window.scrollY;
+    if (y > 60) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+
+    if (y > 600) floatingCta.classList.add('show');
+    else floatingCta.classList.remove('show');
+    lastScroll = y;
+  }, { passive: true });
+
+  // ===== MOBILE NAV =====
+  const burger = document.getElementById('burger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  burger.addEventListener('click', function() {
+    burger.classList.toggle('active');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+
+  window.closeMobile = function() {
+    burger.classList.remove('active');
+    mobileNav.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  // ===== HERO CHART =====
+  const chartEl = document.getElementById('heroChart');
+  if (chartEl) {
+    const values = [25, 35, 30, 50, 45, 60, 55, 70, 65, 80, 85, 95];
+    values.forEach(function(v) {
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = '0%';
+      chartEl.appendChild(bar);
+    });
+    setTimeout(function() {
+      chartEl.querySelectorAll('.chart-bar').forEach(function(bar, i) {
+        setTimeout(function() { bar.style.height = values[i] + '%'; }, i * 80);
+      });
+    }, 600);
+  }
+
+  // ===== COUNTER ANIMATION =====
+  function animateCounters() {
+    document.querySelectorAll('[data-count]').forEach(function(el) {
+      if (el.dataset.animated) return;
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.dataset.animated = '1';
+        var target = parseInt(el.dataset.count);
+        var duration = 2000;
+        var start = 0;
+        var startTime = null;
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.floor(eased * target) + (target >= 100 ? '+' : '+');
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+    });
+  }
+
+  // ===== SCROLL REVEAL =====
+  function revealOnScroll() {
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 60) {
+        el.classList.add('visible');
+      }
+    });
+    animateCounters();
+  }
+
+  window.addEventListener('scroll', revealOnScroll, { passive: true });
+  revealOnScroll();
+
+  // ===== FAQ ACCORDION =====
+  document.querySelectorAll('.faq-question').forEach(function(q) {
+    q.addEventListener('click', function() {
+      var item = q.parentElement;
+      var answer = item.querySelector('.faq-answer');
+      var isOpen = item.classList.contains('active');
+
+      // close all
+      document.querySelectorAll('.faq-item').forEach(function(fi) {
+        fi.classList.remove('active');
+        fi.querySelector('.faq-answer').style.maxHeight = null;
+      });
+
+      if (!isOpen) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ===== FORM SUBMIT =====
+  window.handleSubmit = function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var btn = form.querySelector('button');
+    btn.textContent = 'Отправлено!';
+    btn.style.background = 'linear-gradient(135deg, #00cec9, #00b894)';
+    setTimeout(function() {
+      btn.innerHTML = 'Индивидуальные условия &#10132;';
+      btn.style.background = '';
+      form.reset();
+    }, 3000);
+  };
+
+  // ===== SMOOTH SCROLL =====
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = a.getAttribute('href');
+      if (href.length > 1) {
+        var target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
