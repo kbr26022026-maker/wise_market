@@ -3,6 +3,7 @@
   <MobileNav :open="mobileOpen" @close="mobileOpen = false" @scrollTo="scrollTo" />
   <router-view />
   <FooterSection />
+  <SpeedInsights />
 </template>
 
 <script setup>
@@ -10,6 +11,7 @@ import { ref, provide } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import MobileNav from './components/MobileNav.vue'
 import FooterSection from './components/FooterSection.vue'
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 
 const mobileOpen = ref(false)
 provide('mobileOpen', mobileOpen)
