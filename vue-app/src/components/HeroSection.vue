@@ -4,9 +4,9 @@
     <div class="glow glow-green"></div>
     <div class="container hero-inner">
       <div class="hero-content">
-        <div class="section-label">Маркетплейс-агентство #1</div>
+        <div class="section-label">Маркетплейс-агентство №1 в России</div>
         <h1 class="hero-title">
-          Превратите Ozon<br>в ваш <span class="gradient-text">главный источник дохода</span>
+          Превратите Ozon в ваш <span class="gradient-text">главный источник дохода</span>
         </h1>
         <p class="hero-desc">
           Мы поможем вам начать зарабатывать с нуля или вывести текущие продажи на новый уровень — на основе аналитики и выработанной стратегии

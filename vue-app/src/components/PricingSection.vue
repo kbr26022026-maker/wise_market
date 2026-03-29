@@ -17,17 +17,20 @@
               <span class="check">&#10003;</span> {{ f }}
             </div>
           </div>
-          <a href="#contact" class="btn" :class="p.popular ? 'btn-primary' : 'btn-outline'">Купить</a>
-        </div>
-      </div>
-
-      <h3 class="section-title reveal" style="margin-top: 80px; font-size: 1.8rem;">Обучение</h3>
-      <div class="education-grid">
-        <div v-for="e in education" :key="e.title" class="edu-card reveal">
-          <h3>{{ e.title }}</h3>
-          <p>{{ e.desc }}</p>
-          <div class="edu-price">{{ e.price }}</div>
-          <a href="#contact" class="btn btn-outline">Подробности</a>
+          <div class="price-card-footer">
+            <a href="#contact" class="btn" :class="p.popular ? 'btn-primary' : 'btn-outline'">Купить</a>
+            <button class="who-toggle who-toggle--center" @click="allExpanded = !allExpanded">
+              Кому подойдет <span class="who-arrow" :class="{ rotated: allExpanded }"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="who-collapse" :class="{ open: allExpanded }">
+              <div class="who-list">
+                <div v-for="item in p.audience" :key="item" class="who-item">
+                  <span class="who-dot"></span>
+                  <span>{{ item }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -37,35 +40,55 @@
 </template>
 
 <script setup>
+import { reactive, ref, watch } from 'vue'
 import { useReveal } from '../composables/useReveal'
 useReveal()
 
-const plans = [
-  {
-    name: 'Рост', popular: false, price: '341 414 ₽',
-    desc: 'Базовый старт: создание магазина, выбор ниши, карточки и первые шаги по рекламе. Идеален для уверенного запуска.',
-    features: ['Регистрация', 'Аналитика', 'Стратегия', 'Карточки', 'Контент', 'Реклама', 'Ведение', 'Менеджер']
-  },
-  {
-    name: 'Продвижение', popular: false, price: '402 843 ₽',
-    desc: 'Для действующих продавцов, которым нужно системно расти. Оптимизируем для уверенного масштабирования.',
-    features: ['Все из «Рост»', 'Цены', 'Автоответы', 'Документы', 'Прогноз', 'Команда 2+ специалиста']
-  },
-  {
-    name: 'Масштаб', popular: true, price: '441 414 ₽',
-    desc: 'Полное сопровождение: мы берем все на себя. От стратегии и рекламы до команды и конкурентов.',
-    features: ['Все из «Продвижение»', 'KPI', 'Разведка', 'Авто', 'VIP Клуб', 'Обучение: очно и дистанционно']
-  },
-  {
-    name: 'Доминация', popular: false, price: '602 842 ₽',
-    desc: 'Максимум контроля и силы: вы доминируете в нише, опережаете конкурентов с профессиональной командой.',
-    features: ['Все из «Масштаб»', 'Полная команда', 'Персональная стратегия', 'Приоритетная поддержка', 'Конкурентный анализ']
-  }
-]
+const allExpanded = ref(false)
 
-const education = [
-  { title: 'Базовый курс', desc: 'Получаете обучающие материалы, 4 онлайн-сессии с менеджером и чат-поддержку. Всё в удобном темпе, без перегруза. Учитесь — и внедряете.', price: '45 990 ₽' },
-  { title: 'Полный курс', desc: 'Личный куратор, 8 онлайн-сессий, практические задания, закрытые материалы, личные встречи и постоянная поддержка. Фокус на результат.', price: '53 990 ₽' },
-  { title: 'Командное развитие', desc: 'Обучим вас и до 3 сотрудников: 6 командных сессий, контроль внедрения, чат с куратором, наставничество, бизнес-кейсы.', price: '78 990 ₽' }
-]
+watch(allExpanded, (val) => {
+  const lists = document.querySelectorAll('.who-list')
+  if (val) {
+    const first = document.querySelector('.who-collapse')
+    if (!first) return
+    const onEnd = () => {
+      first.removeEventListener('transitionend', onEnd)
+      let maxH = 0
+      lists.forEach(el => { maxH = Math.max(maxH, el.scrollHeight) })
+      lists.forEach(el => { el.style.minHeight = maxH + 'px' })
+    }
+    first.addEventListener('transitionend', onEnd)
+  } else {
+    lists.forEach(el => { el.style.minHeight = '' })
+  }
+})
+
+const plans = reactive([
+  {
+    name: 'Рост', popular: false, price: '341 414 ₽', expanded: false,
+    desc: 'Базовый старт: создание магазина, выбор ниши, карточки и первые шаги по рекламе. Идеален для уверенного запуска.',
+    features: ['Регистрация', 'Аналитика', 'Стратегия', 'Карточки', 'Контент', 'Реклама', 'Ведение', 'Менеджер'],
+    audience: ['Новички, которые только планируют выйти на Ozon', 'Предприниматели, запускающие первый продукт или категорию', 'Селлеры без опыта анализа ниши и выбора товара', 'Пользователи, которым нужен уверенный старт без лишних рисков']
+  },
+  {
+    name: 'Продвижение', popular: false, price: '402 843 ₽', expanded: false,
+    desc: 'Для действующих продавцов, которым нужно системно расти. Оптимизируем для уверенного масштабирования.',
+    features: ['Все из «Рост»', 'Цены', 'Автоответы', 'Документы', 'Прогноз', 'Команда 2+ специалиста'],
+    audience: ['Селлеры с активной рекламой и нестабильными результатами', 'Предприниматели с высоким ДРР и неэффективными расходами', 'Бизнесы, которым важно увеличить прибыль без роста бюджета', 'Пользователи, которым нужна системная работа с рекламой']
+  },
+  {
+    name: 'Масштаб', popular: true, price: '441 414 ₽', expanded: false,
+    desc: 'Полное сопровождение: мы берем все на себя. От стратегии и рекламы до команды и конкурентов.',
+    features: ['Все из «Продвижение»', 'KPI', 'Разведка', 'Авто', 'VIP Клуб', 'Обучение: очно и дистанционно'],
+    audience: ['Селлеры со стабильными продажами без системного роста', 'Предприниматели, стремящиеся выстроить управляемый бизнес', 'Бизнесы с потенциалом масштабирования', 'Пользователи, ориентированные на рост через аналитику и оптимизацию']
+  },
+  {
+    name: 'Доминация', popular: false, price: '602 842 ₽', expanded: false,
+    desc: 'Максимум контроля и силы: вы доминируете в нише, опережаете конкурентов с профессиональной командой.',
+    features: ['Все из «Масштаб»', 'Полная команда', 'Персональная стратегия', 'Приоритетная поддержка', 'Конкурентный анализ'],
+    audience: ['Селлеры с текущим оборотом, готовые к масштабированию', 'Бизнесы с командой и распределёнными процессами', 'Предприниматели, ориентированные на кратный рост', 'Пользователи, которым нужна максимальная автоматизация и контроль']
+  }
+])
+
+
 </script>

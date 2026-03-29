@@ -94,6 +94,7 @@ button, input, textarea { font-family: inherit; border: none; outline: none; }
   gap: 8px;
   padding: 14px 32px;
   border-radius: 100px;
+  border: 1.5px solid transparent;
   font-weight: 600;
   font-size: .95rem;
   cursor: pointer;
@@ -159,7 +160,7 @@ body::after {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  padding: 16px 0;
+  padding: 6px 0;
   transition: all .4s ease;
 }
 .header.scrolled {
@@ -167,7 +168,7 @@ body::after {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 10px 0;
+  padding: 6px 0;
 }
 .header-inner {
   display: flex;
@@ -179,9 +180,13 @@ body::after {
   align-items: center;
 }
 .logo-img {
-  height: 64px;
+  height: 96px;
   width: auto;
   display: block;
+}
+.header .header-inner {
+  max-width: none;
+  padding: 0 3.5%;
 }
 .nav { display: flex; gap: 24px; align-items: center; }
 .nav a {
@@ -243,7 +248,7 @@ body::after {
   align-items: center;
   padding-top: 36px;
   padding-bottom: 50px;
-  margin: 80px 40px 20px;
+  margin: 100px 40px 20px;
   border-radius: 32px;
   position: relative;
   overflow: hidden;
@@ -262,7 +267,7 @@ body::after {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
   position: relative;
   z-index: 1;
 }
@@ -272,6 +277,7 @@ body::after {
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 24px;
+  color: #282e3d;
 }
 .hero-title .gradient-text {
   background: linear-gradient(135deg, var(--accent-light), var(--green));
@@ -292,6 +298,7 @@ body::after {
   align-items: center;
   position: relative;
   overflow: visible;
+  padding-top: calc(0.75rem * 1.2 + 12px + 16px);
 }
 
 /* Floating emojis */
@@ -736,7 +743,7 @@ body::after {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 36px 24px;
-  transition: all .4s ease;
+  transition: transform .4s ease, border-color .4s ease, box-shadow .4s ease;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -791,7 +798,6 @@ body::after {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 28px;
-  flex-grow: 1;
 }
 .price-feature {
   display: flex;
@@ -813,6 +819,91 @@ body::after {
   flex-shrink: 0;
 }
 .price-card .btn { width: 100%; justify-content: center; }
+.price-card-footer {
+  margin-top: auto;
+}
+
+.who-toggle {
+  background: none;
+  border: none;
+  color: rgba(0,0,0,.5);
+  font-size: .85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 0;
+  transition: color .2s;
+}
+.who-toggle--center {
+  justify-content: center;
+  width: 100%;
+}
+.who-toggle:hover {
+  color: #0066ff;
+}
+.who-arrow {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0,102,255,.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .3s, background .2s;
+  flex-shrink: 0;
+}
+.who-arrow svg {
+  width: 12px;
+  height: 12px;
+  stroke: #0066ff;
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.who-toggle:hover .who-arrow {
+  background: rgba(0,102,255,.18);
+}
+.who-arrow.rotated {
+  transform: rotate(180deg);
+}
+.who-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .35s cubic-bezier(.4,0,.2,1);
+  will-change: grid-template-rows;
+}
+.who-collapse.open {
+  grid-template-rows: 1fr;
+}
+.who-collapse > .who-list {
+  overflow: hidden;
+  min-height: 0;
+}
+.who-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0 4px;
+}
+.who-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: .82rem;
+  color: rgba(0,0,0,.6);
+  line-height: 1.5;
+}
+.who-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #0052cc);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
 
 /* ===== EDUCATION TARIFFS ===== */
 .education-grid {
@@ -1496,7 +1587,7 @@ body::after {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-visual { margin-top: 32px; }
+  .hero-visual { margin-top: 32px; padding-top: 0; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .trust-grid, .unique-grid, .education-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid { grid-template-columns: repeat(2, 1fr); }

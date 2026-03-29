@@ -1,7 +1,7 @@
 <template>
   <div class="tariffs-page">
     <div class="container">
-      <a href="/" class="tariffs-back" @click.prevent="$router.push('/')">← На главную</a>
+      <a href="/#pricing" class="tariffs-back" @click.prevent="$router.push({ path: '/', hash: '#pricing' })">← На главную</a>
 
       <h1 class="tariffs-title">Стоимость тарифов</h1>
 

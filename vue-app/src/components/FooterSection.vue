@@ -32,8 +32,8 @@
           <span>ИП Васильев Глеб Андреевич &bull; ИНН: 772577851715 &bull; ОГРНИП: 323774600109361</span>
         </div>
         <div style="display:flex; gap: 16px; align-items:center;">
-          <a href="https://wisemarket.ru/policy" target="_blank">Политика конфиденциальности</a>
-          <a href="https://wisemarket.ru/offer" target="_blank">Публичная оферта</a>
+          <router-link to="/policy" class="offer-link">Политика конфиденциальности</router-link>
+          <router-link to="/offer" class="offer-link">Публичная оферта</router-link>
         </div>
         <div class="footer-socials">
           <a href="https://t.me/WiseMarketSupport_bot" target="_blank" class="footer-social" title="Telegram">&#9993;</a>
@@ -44,3 +44,14 @@
     </div>
   </footer>
 </template>
+
+<style scoped>
+.offer-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color .2s;
+}
+.offer-link:hover {
+  color: var(--accent);
+}
+</style>
